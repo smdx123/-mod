@@ -1,0 +1,120 @@
+{
+"name": "decorations_zh_fix",
+  "version": "2.0.0",
+  "styleFileList": [],
+  "scriptFileList_earlyload": [],
+  "scriptFileList_inject_early": [],
+  "scriptFileList_preload": [],
+  "scriptFileList": [],
+  "tweeFileList": [],
+  "imgFileList": [   
+  "img/decorations/background/1.png",
+  "img/decorations/background/2.png",
+  "img/decorations/background/3.png",
+  "img/decorations/background/4.png",
+  "img/decorations/background/none.png",
+  "img/decorations/background/undefined.png",
+  "img/decorations/foreground/1.png",
+  "img/decorations/foreground/2.png",
+  "img/decorations/foreground/3.png",
+  "img/decorations/foreground/4.png",
+  "img/decorations/foreground/none.png",
+  "img/decorations/foreground/undefined.png"
+],
+  "additionFile": [
+  "Readme.txt"
+  ],
+    "addonPlugin": [
+    { 
+      "modName": "TweeReplacer",
+      "addonName": "TweeReplacerAddon",
+      "modVersion": "1.2.0",
+      "params": []
+    },
+
+    {
+      "modName": "ReplacePatcher",
+      "addonName": "ReplacePatcherAddon",
+      "modVersion": "1.2.0",
+      "params": {
+        "js": [
+          {
+            "fileName": "canvasmodel-00-data.js",
+            "from":"const ZIndices = {\n\tflatlight: -4,\n\tgradientlight: -3,\n",
+            "to":"const ZIndices = {\n\tflatlight: -4,\n\tdeco_bg:-5,\n\tgradientlight: -3,\n"
+          },
+          {
+            "fileName": "canvasmodel-00-data.js",
+            "from":"old_over_upper: 171,\n};\n",
+            "to": "old_over_upper: 171,\n\n\tdeco_fg: 205,\n};\n"
+          },
+          {
+            "fileName": "canvasmodel-editor.js",
+            "from":"booleanOption(\"show_tf\"),\n\t\t\t\t\t\tbooleanOption(\"show_clothes\"),\n",
+            "to": "booleanOption(\"show_tf\"),\n\t\t\t\t\t\tbooleanOption(\"show_background\"),\n\t\t\t\t\t\tbooleanOption(\"show_foreground\"),\n\t\t\t\t\t\tbooleanOption(\"show_clothes\"),\n"
+          },
+          {
+            "fileName": "canvasmodel-editor.js",
+            "from":"selectOption(\"drip_mouth\", [\"\", \"Start\", \"VerySlow\", \"Slow\", \"Fast\", \"VeryFast\"]),\n\t\t\t\t\t]),\n",
+            "to": "selectOption(\"drip_mouth\", [\"\", \"Start\", \"VerySlow\", \"Slow\", \"Fast\", \"VeryFast\"]),\n\n\t\t\t\t\t\toptionCategory(\"Decorations\"),\n\t\t\t\t\t\tselectOption(\"foreground_image_type\", [\"none\", \"1\", \"2\", \"3\", \"4\"]),\n\t\t\t\t\t\tselectOption(\"background_image_type\", [\"none\", \"1\", \"2\", \"3\", \"4\"]),\n\t\t\t\t\t\t\n\t\t\t\t\t]),\n"
+          },
+          {
+            "fileName": "canvasmodel-main.js",
+            "from":"\"show_tf\": true,\n\t\t\t\"show_clothes\": true,\n",
+            "to": "\"show_tf\": true,\n\t\t\t\"show_background\": true,\n\t\t\t\"show_foreground\": true,\n\t\t\t\"show_clothes\": true,\n"
+          },
+          {
+            "fileName": "canvasmodel-main.js",
+            "from":"\"fox_cheeks_type\": \"disabled\",\n\t\t\t// body writings\n\t\t\t\"writing_forehead\": \"\",\n",
+            "to": "\"fox_cheeks_type\": \"disabled\",\n\t\t\t//Decorations\n\t\t\t\"background_image_type\": \"none\",\n\t\t\t\"foreground_image_type\": \"none\",\n\t\t\t// body writings\n\t\t\t\"writing_forehead\": \"\",\n"
+          },
+          {
+            "fileName": "canvasmodel-main.js",
+            "from":"return `img/body/rightarmidle-${options.body_type}.png`\n\t\t\t},\n\t\t},\n",
+            "to": "return `img/body/rightarmidle-${options.body_type}.png`\n\t\t\t},\n\t\t},\n\"decoration_foreground\": {\n\t\t\tsrcfn(options) {\n\t\t\t\treturn `img/decorations/foreground/${options.foreground_image_type}.png`;\n\t\t\t},\n\t\t\tshowfn(options) {\n\t\t\t\treturn options.show_foreground;\n\t\t\t},\n\t\t\tz: ZIndices.deco_fg,\n\t\t\tanimation: \"idle\"\n\t\t},\n\n\t\t\"decoration_background\": {\n\t\t\tsrcfn(options) {\n\t\t\t\treturn `img/decorations/background/${options.background_image_type}.png`;\n\t\t\t},\n\t\t\tshowfn(options) {\n\t\t\t\treturn options.show_background;\n\t\t\t},\n\t\t\tz: ZIndices.deco_bg,\n\t\t\tanimation: \"idle\"\n\t\t},\n"
+          }
+        ],
+      "twee":[
+          {
+            "TODO": "variables-versionUpdate.twee",
+            "passageName": "Widgets variablesVersionUpdate",
+            "from":"<</if>>\n<</widget>>",
+            "to":"<</if>>\n\t<<if $foreground_image is undefined>>\n\t\t<<set $foreground_image to \"none\">>\n\t<</if>>\n\n\t<<if $background_image is undefined>>\n\t\t<<set $background_image to \"none\">>\n\t<</if>>\n<</widget>>"
+          },
+          {
+            "TODO": "canvasmodel-img.twee",
+            "passageName": "Widgets Canvas Model Main",
+            "from":"<<set _modeloptions.fox_cheeks_type to $transformationParts.fox.cheeks>>\n\n\t<!--\n",
+            "to":"<<set _modeloptions.fox_cheeks_type to $transformationParts.fox.cheeks>>\n\n\t/*\n\n\t\tâââââââ ââââââââ âââââââ âââââââ âââââââ  ââââââ ââââââââââââ âââââââ ââââ   âââââââââââ\n\t\tâââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ  âââââââââââ\n\t\tâââ  âââââââââ  âââ     âââ   âââââââââââââââââââ   âââ   ââââââ   âââââââââ âââââââââââ\n\t\tâââ  âââââââââ  âââ     âââ   âââââââââââââââââââ   âââ   ââââââ   âââââââââââââââââââââ\n\t\tââââââââââââââââââââââââââââââââââââ  ââââââ  âââ   âââ   âââââââââââââââ ââââââââââââââ\n\t\tâââââââ ââââââââ âââââââ âââââââ âââ  ââââââ  âââ   âââ   âââ âââââââ âââ  âââââââââââââ\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\n\t*/\n\t\n\t<<set _modeloptions.background_image_type to $background_image>>\n\t<<set _modeloptions.foreground_image_type to $foreground_image>>\n\n\t<!--\n"
+          },
+          {
+            "TODO": "mirror.twee",
+            "passageName": "Widgets Mirror",
+            "from":"<<mirrorMakeup>>\n\t\t<<case \"transformation\">>\n",
+            "to":"<<mirrorMakeup>>\n\t\t<<case \"mood\">>\n\t\t\t<<mirrorMood>>\n\t\t<<case \"transformation\">>\n"
+          },
+          {
+            "TODO": "mirror.twee",
+            "passageName": "Widgets Mirror",
+            "from":"<<if !$simpleMirror>>",
+            "to":"\n\t__å¿å¢__\n\t<br>\n\t<<link \"æ¢æ¢å¿æ\">><<set $mirrorMenu to \"mood\">><<replace #mirror>><<mirrorDisplay>><</replace>><<numberify \"#passages > .passage\">><</link>>\n\t<br><br>\n\n\t<<if !$simpleMirror>>"
+          },
+          {
+            "TODO": "mirror.twee",
+            "passageName": "Widgets Mirror",
+            "from":"<</widget>>\n\n<<widget \"mirrorTransformation\">>\n\t<<link \"è¿å\">><<replace #mirror>><<mirrorMenu>><</replace>><<numberify \"#passages > .passage\">><<unset $mirrorMenu>><</link>>\n\t<br><br>\n",
+            "to":"<</widget>>\n\n<<widget \"mirrorMood\">>\n\t<br>\n\t<i>éæ©ä½ æ³ä½¿ç¨å¨äººç©ä¾§æ çèæ¯ååæ¯ã</i><mouse class=\"tooltip linkBlue\">(?)<span  style=\"font-size:16px;\">ä½ å¯ä»¥å¨æ¬æ¨¡ç»ç \\img\\decorations\\background æ \\img\\decorations\\foreground ç®å½ä¸­å°é»è®¤çåæ¯/èæ¯å¾éé¡¹æ¿æ¢æèªå®ä¹çå¾çï¼æé¡ºåºä½¿ç¨æ°å­1, 2, 3, 4å½åã</span></mouse>\n\t<br>\n\t<br>\n\t<div class=\"settingsToggleItem\">\n\t\t<span class=\"gold\">åæ¯ï¼</span><br>\n\t\t<label>æ  <<radiobutton \"$foreground_image\" \"none\" autocheck>></label><br>\n\t\t<label>éé¡¹1 <<radiobutton \"$foreground_image\" \"1\" autocheck>></label><br>\n\t\t<label>éé¡¹2 <<radiobutton \"$foreground_image\" \"2\" autocheck>></label><br>\n\t\t<label>éé¡¹3 <<radiobutton \"$foreground_image\" \"3\" autocheck>></label><br>\n\t\t<label>éé¡¹4 <<radiobutton \"$foreground_image\" \"4\" autocheck>></label><br>\n\t</div>\n\t<br>\n\t<div class=\"settingsToggleItem\">\n\t\t<span class=\"gold\">èæ¯ï¼</span><br>\n\t\t<label>æ  <<radiobutton \"$background_image\" \"none\" autocheck>></label><br>\n\t\t<label>éé¡¹1 <<radiobutton \"$background_image\" \"1\" autocheck>></label><br>\n\t\t<label>éé¡¹2 <<radiobutton \"$background_image\" \"2\" autocheck>></label><br>\n\t\t<label>éé¡¹3 <<radiobutton \"$background_image\" \"3\" autocheck>></label><br>\n\t\t<label>éé¡¹4 <<radiobutton \"$background_image\" \"4\" autocheck>></label><br>\n\t</div>\n\t<br>\n\t<br>\n\t<<link [[ç¡®è®¤|$passage]]>><<updatesidebarimg>><</link>>\n\t<br>\n\t<br>\n\t<<link \"è¿å\">><<replace #mirror>><<mirrorMenu>><</replace>><<numberify \"#passages > .passage\">><<unset $mirrorMenu>><</link>>\n<</widget>>\n\n<<widget \"mirrorTransformation\">>\n\t<<link \"è¿å\">><<replace #mirror>><<mirrorMenu>><</replace>><<numberify \"#passages > .passage\">><<unset $mirrorMenu>><</link>>\n\t<br><br>\n"
+          }
+      ]
+      }
+    },
+    {
+      "modName": "ModLoader DoL ImageLoaderHook",
+      "addonName": "ImageLoaderAddon",
+      "modVersion": "^2.3.0",
+      "params": []
+    }
+  ],
+  
+  "dependenceInfo": []
+}
